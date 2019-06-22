@@ -6,153 +6,138 @@ using UnityEngine.UI;
 
 public class NewMenuPrincipalController : MonoBehaviour {
 
-    public GameObject Tutorial;
-    public GameObject SeleccionarNiveles;
-    public GameObject Salir;
-    public GameObject TutorialS;
-    public GameObject SeleccionarNivelesS;
-    public GameObject SalirS;
+    public enum states {Jugar, Nivel, Salir };
+    public GameObject[] GO_Jugar;
+    public GameObject[] GO_Nivel;
+    public GameObject[] GO_Salir;
+
+    public class Estado
+    {
+        public states estado;
+        public Estado next;
+        public Estado back;
+        public GameObject OpToSelect;
+        public GameObject opToDisSelect;
+        
+        public Estado(states estado, GameObject[] OPs, Estado next, Estado back)
+        {
+            this.estado = estado;
+            this.OpToSelect = OPs[0];
+            this.opToDisSelect = OPs[1];
+            this.next = next;
+            this.back = back;
+        }
+    }
+
+    public Estado FirstState;
+    public Estado SecondState;
+    public Estado ThirdState;
+    public Estado actual;
+
     public GameObject MapaInstrucciones;
     public GameObject FondoNegro;
-    
 
-    public bool setTutorial;
-    public bool setSN;
-    public bool setSalir;
-    public bool mostrarInstrucciones;
-
-    private int cont;
-    private bool presionado;
+    public bool ReadyToGo;
 
     public string tutorial;
     public string selectLevel;
-    public string lvl1tag;
 
     public Image black;
     public Animator anim;
-    private string lvlToLoad;
 
     public static bool [] lvlPasado = new bool [4];
 
+    float inputForce = 0f;
+    bool press;
+
     // Use this for initialization
     void Start () {
-        setTutorial = true;
-        setSN = false;
-        setSalir = false;
-        cont = 0;
-        presionado = false;
-        mostrarInstrucciones = false;
+        FirstState  = new Estado(states.Jugar, GO_Jugar, SecondState, ThirdState);
+        SecondState = new Estado(states.Nivel, GO_Nivel, FirstState, ThirdState);
+        ThirdState  = new Estado(states.Salir, GO_Salir, FirstState, SecondState);
+
+        FirstState.next  = SecondState;
+        FirstState.back  = ThirdState;
+
+        SecondState.next = ThirdState;
+        SecondState.back = FirstState;
+
+        ThirdState.next  = FirstState;
+        ThirdState.back  = SecondState;
+
+        actual = SecondState;
+        ChangeState();
+        ChangeState();
+
+        ReadyToGo = false;
         
     }
-	
 	// Update is called once per frame
 	void Update () {
-        //move = ;
-        MapaInstrucciones.SetActive(mostrarInstrucciones);
-        FondoNegro.SetActive(mostrarInstrucciones);
-        if (!mostrarInstrucciones)
+
+        if (ReadyToGo && Input.GetButtonDown("Select"))
         {
-            if (!presionado)
-            {
-                if (Input.GetAxis("Vertical_Select") < -0.08f)
-                {
-                    cont++;
-                    if (cont >= 2)
-                    {
-                        cont = 2;
-                    }
-                    presionado = true;
-
-                }
-                if (Input.GetAxis("Vertical_Select") > 0.08f)
-                {
-                    cont--;
-                    if (cont <= 0)
-                    {
-                        cont = 0;
-                    }
-                    presionado = true;
-                }
-            }
-            if (presionado)
-            {
-                if (Input.GetAxis("Vertical_Select") > -0.08 && Input.GetAxis("Vertical_Select") < 0.08f)
-                {
-                    presionado = false;
-                }
-            }
+            SwitchScene(actual.estado);
+            return;
         }
-        
-        switch (cont)
-        {
-            case 0:
-                setTutorial = true;
-                setSN = false;
-                setSalir = false;
-
-                Tutorial.SetActive(false);
-                TutorialS.SetActive(true);
-                SeleccionarNiveles.SetActive(true);
-                SeleccionarNivelesS.SetActive(false);
-                Salir.SetActive(true);
-                SalirS.SetActive(false);
-
-                break;
-            case 1:
-                setTutorial = false;
-                setSN = true;
-                setSalir = false;
-
-                Tutorial.SetActive(true);
-                TutorialS.SetActive(false);
-                SeleccionarNiveles.SetActive(false);
-                SeleccionarNivelesS.SetActive(true);
-                Salir.SetActive(true);
-                SalirS.SetActive(false);
-
-                break;
-            case 2:
-                setTutorial = false;
-                setSN = false;
-                setSalir = true;
-
-                Tutorial.SetActive(true);
-                TutorialS.SetActive(false);
-                SeleccionarNiveles.SetActive(true);
-                SeleccionarNivelesS.SetActive(false);
-                Salir.SetActive(false);
-                SalirS.SetActive(true);
-
-                break;
-        }
-        if (Input.GetButtonDown("Select"))
-        {
-
-            if (setTutorial && mostrarInstrucciones)
-            {
-                lvlToLoad = tutorial;
-                StartCoroutine(Iniciar(lvlToLoad));
-            }else  if (setTutorial)
-            {
-                mostrarInstrucciones = !mostrarInstrucciones;
-
-
-            } else if (setSN)
-            {
-                lvlToLoad = selectLevel;
-                StartCoroutine(Iniciar(lvlToLoad));
-            } else if (setSalir)
-            {
-                Application.Quit();
-            }
-        }
+        inputForce = Input.GetAxisRaw("Vertical_Select");
+        if (!press && (inputForce >= 0.25f || inputForce <= -0.25f)) ChangeState();
+        else if (press && (inputForce < 0.25f && inputForce > -0.25f)) press = false;
+        if (Input.GetButtonDown("Select")) SwitchScene(actual.estado);
 	}
 
-    IEnumerator Iniciar(string level)
+    void ChangeState()
+    {
+        press = false;
+
+        SetSpriteStates();
+
+        if (inputForce >= 0.25f) actual = actual.back;
+        else actual = actual.next;
+        press = true;
+
+        SetSpriteStates();
+    }
+
+    void SetSpriteStates()
+    {
+        actual.OpToSelect.SetActive(press);
+        actual.opToDisSelect.SetActive(!press);
+    }
+
+    void SwitchScene(states s)
+    {
+        switch (s)
+        {
+            case states.Jugar:
+                if (ReadyToGo)
+                {
+                    ReadyToGo = true;
+                    MapaInstrucciones.SetActive(ReadyToGo);
+                    FondoNegro.SetActive(ReadyToGo);
+                }
+                else
+                {
+                    StartCoroutine(Fade(tutorial));
+                    //SceneManager.LoadScene(tutorial);
+                }
+                break;
+            case states.Nivel:
+                StartCoroutine(Fade(selectLevel));
+                //SceneManager.LoadScene(selectLevel);
+                break;
+            case states.Salir:
+                StartCoroutine(Fade());
+                //Application.Quit();
+                break;
+        }
+    }
+
+    IEnumerator Fade(string loadLevel = null)
     {
         anim.SetBool("Fade", true);
         yield return new WaitUntil(() => black.color.a == 1);
-        SceneManager.LoadScene(level);
+        if(loadLevel == null) Application.Quit();
+        SceneManager.LoadScene(loadLevel);
     }
-
 }

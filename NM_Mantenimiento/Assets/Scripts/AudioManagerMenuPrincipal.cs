@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class AudioManagerMenuPrincipal : MonoBehaviour {
 
-    public AudioSource intro;
-    private bool introState;
-    public AudioSource mainBGM;
+    public AudioSource VGM_player;
+    public AudioClip introOST;
+    public AudioClip loopOST;
 
 	// Use this for initialization
 	void Start () {
-        introState = true;
+        VGM_player.clip = introOST;
+        VGM_player.Play();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!intro.isPlaying && introState)
+        if (!VGM_player.isPlaying && VGM_player.clip == introOST)
         {
-            mainBGM.Play();
-            introState = false;
+            VGM_player.clip = loopOST;
+            VGM_player.loop = true;
+            VGM_player.Play();
         }
 	}
 }

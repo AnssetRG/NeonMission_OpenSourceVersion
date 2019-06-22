@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 157397870}
   - component: {fileID: 157397871}
   m_Layer: 0
-  m_Name: SalirDelJuego
+  m_Name: SalirDelJuego_S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3884,7 +3884,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 544148858}
-  - component: {fileID: 544148857}
   - component: {fileID: 544148859}
   - component: {fileID: 544148860}
   m_Layer: 0
@@ -3894,86 +3893,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!82 &544148857
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 544148856}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 21ec0017cd7aeec469d67dc9659a8c7a, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!4 &544148858
 Transform:
   m_ObjectHideFlags: 0
@@ -4000,7 +3919,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -4126,8 +4045,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efce1e7e3cc8a004494d2a5aec56d287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  intro: {fileID: 544148857}
-  mainBGM: {fileID: 544148859}
+  VGM_player: {fileID: 544148859}
+  introOST: {fileID: 8300000, guid: 21ec0017cd7aeec469d67dc9659a8c7a, type: 3}
+  loopOST: {fileID: 8300000, guid: 3b473ce7e4d74fc42a39f91efd0c765d, type: 3}
 --- !u!1 &644784004
 GameObject:
   m_ObjectHideFlags: 0
@@ -4245,12 +4165,12 @@ GameObject:
   - component: {fileID: 809607967}
   - component: {fileID: 809607966}
   m_Layer: 0
-  m_Name: SeleccionarNivelSeleccionado
+  m_Name: SeleccionarNivel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &809607966
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4318,12 +4238,12 @@ GameObject:
   - component: {fileID: 832812861}
   - component: {fileID: 832812860}
   m_Layer: 0
-  m_Name: SalirDelJuegoSeleccionado
+  m_Name: SalirDelJuego
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &832812860
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4391,12 +4311,12 @@ GameObject:
   - component: {fileID: 884067852}
   - component: {fileID: 884067851}
   m_Layer: 0
-  m_Name: TutorialSeleccionado
+  m_Name: Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &884067851
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4464,7 +4384,7 @@ GameObject:
   - component: {fileID: 1194384228}
   - component: {fileID: 1194384229}
   m_Layer: 0
-  m_Name: SeleccionarNivel
+  m_Name: SeleccionarNivel_S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4640,7 +4560,7 @@ GameObject:
   - component: {fileID: 1290650769}
   - component: {fileID: 1290650770}
   m_Layer: 0
-  m_Name: Tutorial
+  m_Name: Tutorial_S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8351,20 +8271,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604c7599b54a2aa47a841e2a3e9ca7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tutorial: {fileID: 884067850}
-  SeleccionarNiveles: {fileID: 809607965}
-  Salir: {fileID: 832812859}
-  TutorialS: {fileID: 1290650768}
-  SeleccionarNivelesS: {fileID: 1194384227}
-  SalirS: {fileID: 157397869}
+  GO_Jugar:
+  - {fileID: 1290650768}
+  - {fileID: 884067850}
+  GO_Nivel:
+  - {fileID: 1194384227}
+  - {fileID: 809607965}
+  GO_Salir:
+  - {fileID: 157397869}
+  - {fileID: 832812859}
   MapaInstrucciones: {fileID: 31379286}
   FondoNegro: {fileID: 1278183637}
-  setTutorial: 0
-  setSN: 0
-  setSalir: 0
-  mostrarInstrucciones: 0
+  ReadyToGo: 0
   tutorial: Tutorial
   selectLevel: Seleccionar_Niveles
-  lvl1tag: 
   black: {fileID: 1756830414}
   anim: {fileID: 1756830413}
