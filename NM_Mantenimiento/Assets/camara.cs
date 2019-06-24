@@ -8,7 +8,12 @@ public class camara : MonoBehaviour {
 
     public float x;
     public float y;
-	// Use this for initialization
+    public bool up;
+    //public float OrtoChange;
+    //public bool ChangeCameraOrto;
+    // Use this for initialization
+    //float ortoSize;
+    //float oSChangeCounter;
     float cx;
     float cy;
     bool regre;
@@ -16,6 +21,7 @@ public class camara : MonoBehaviour {
 	void Start () {
         cx = 0;
         cy = 0;
+        //oSChangeCounter = 0;
 	}
 	
 	// Update is called once per frame
@@ -24,20 +30,51 @@ public class camara : MonoBehaviour {
         {
             cam.GetComponent<CameraController>().yOffSet = cy;
             cam.GetComponent<CameraController>().xOffSet = cx;
+            //cam.GetComponent<CameraController>().cameraOrthoSize = ortoSize;
             if (regre)
             {
-                if (cy <= 0)
+                if (up)
                 {
-                    cy = cy + 0.05f;
+                    if (cy >= 0)
+                    {
+                        cy = cy - 0.05f;
+                    }
+                    else
+                    {
+                        act = false;
+                    }
+                    if (cx >= 0)
+                    {
+                        cx = cx - 0.05f;
+                    }
                 }
                 else
                 {
-                    act = false;
+                    if (cy <= 0)
+                    {
+                        cy = cy + 0.05f;
+                    }
+                    else
+                    {
+                        act = false;
+                    }
+                    if (cx <= 0)
+                    {
+                        cx = cx + 0.05f;
+                    }
                 }
-                if (cx <= 0)
-                {
-                    cx = cx + 0.05f;
-                }
+                //if (ChangeCameraOrto)
+                //{
+                //    if(oSChangeCounter >= 0)
+                //    {
+                //        oSChangeCounter = oSChangeCounter - 0.05f;
+                //        ortoSize -= 0.05f;
+                //    }
+                //    else
+                //    {
+                //        act = false;
+                //    }
+                //}
             }
         }
     }
@@ -46,12 +83,31 @@ public class camara : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            if (cy >= y)
-                cy = cy - 0.05f;
-            if (cx >= x)
-                cx = cx - 0.05f;
+            if (up)
+            {
+                if (cy <= y)
+                    cy = cy + 0.05f;
+                if (cx <= x)
+                    cx = cx + 0.05f;
+            }
+            else
+            {
+                if (cy >= y)
+                    cy = cy - 0.05f;
+                if (cx >= x)
+                    cx = cx - 0.05f;
+            }
+            //if (ChangeCameraOrto)
+            //{
+            //    if(OrtoChange >= oSChangeCounter)
+            //    {
+            //        oSChangeCounter = oSChangeCounter + 0.05f;
+            //        ortoSize += 0.05f;
+            //    }
+            //}
             regre = false;
             act = true;
+            
         }
     }
 

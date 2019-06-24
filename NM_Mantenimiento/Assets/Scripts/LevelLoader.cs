@@ -10,21 +10,50 @@ public class LevelLoader : MonoBehaviour
     private bool playerInZone1;
     private bool playerInZone2;
     public string levelToLoad;
-    public string levelTag;
+    public GameObject GanasteSprite;
+    public Cronometro cronometroOB;
+    public bool seleccionarLvl;
 
     public Image black;
     public Animator anim;
     public int lvl;
+    private bool go;
 
     // Use this for initialization
     void Start()
     {
         playerInZone1 = false;
+        GanasteSprite.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(playerInZone1 && playerInZone2 && !go)
+        {
+            GanasteSprite.SetActive(true);
+            if (!seleccionarLvl)
+            {
+                cronometroOB.FinishLevelTimer();
+                if (NewMenuPrincipalController.timeToBeatLvls[lvl] > cronometroOB.GetTime()){
+                    /*Debug.Log("False: " + cronometroOB.GetTime() + " " + NewMenuPrincipalController.timeToBeatLvls[lvl]);
+                else
+                {*/
+                    Debug.Log("True: " + cronometroOB.GetTime() + " " + NewMenuPrincipalController.timeToBeatLvls[lvl]);
+                    NewMenuPrincipalController.timeToBeatLvls[lvl] = cronometroOB.GetTime();
+                    Debug.Log("New Record: " + NewMenuPrincipalController.timeToBeatLvls[lvl]);
+                }
+                go = true;
+               if(NewMenuPrincipalController.coinsCollected[lvl] == CoinsCounter.CoinsCollected)
+                {
+                    Debug.Log("Todas las monedas recolectadas");
+                }else
+                {
+                    Debug.Log("Faltan recolectar " + (NewMenuPrincipalController.coinsCollected[lvl] - CoinsCounter.CoinsCollected));
+                }
+            }
+            
+        }
         if((Input.GetButtonDown("Jump_P1") || Input.GetButtonDown("Jump_P2")) && playerInZone1 && playerInZone2)
         {
             NewMenuPrincipalController.lvlPasado[lvl] = true;
@@ -58,7 +87,6 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator Fading()
     {
-        PlayerPrefs.SetInt(levelTag, 1);
         anim.SetBool("Fade", true);
         yield return new WaitUntil(() => black.color.a == 1);
         SceneManager.LoadScene(levelToLoad);

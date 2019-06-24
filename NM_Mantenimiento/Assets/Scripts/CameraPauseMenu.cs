@@ -12,8 +12,6 @@ public class CameraPauseMenu : MonoBehaviour {
     public GameObject SalirS;
     public GameObject MapaInstrucciones;
     public GameObject FondoNegro;
-    public GameObject R2;
-    public GameObject L2;
 
 
     public bool setRenaudar;
@@ -31,6 +29,8 @@ public class CameraPauseMenu : MonoBehaviour {
     public bool isPaused;
     public GameObject pauseMenu;
     public float speedTime;
+
+    public AudioSource ChangeFoil;
 
     void Start()
     {
@@ -52,22 +52,51 @@ public class CameraPauseMenu : MonoBehaviour {
         {
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
-                if (Input.GetButtonDown("Horizontal_Select_Derecha"))
+            if (!presionado)
+            {
+                if (Input.GetButtonDown("Horizontal_Select_Derecha") || Input.GetAxis("Horizontal") > 0.2f)
                 {
+                    if (cont != 1)
+                    {
+                        if (ChangeFoil.isPlaying)
+                        {
+                            ChangeFoil.Stop();
+                        }
+                        ChangeFoil.Play();
+                    }
                     cont++;
                     if (cont >= 1)
                     {
                         cont = 1;
                     }
+                    presionado = true;
 
-                }else if (Input.GetButtonDown("Horizontal_Select_Izquierda"))
+                }
+                else if (Input.GetButtonDown("Horizontal_Select_Izquierda") || Input.GetAxis("Horizontal") < -0.2f)
                 {
+                    if (cont != 0)
+                    {
+                        if (ChangeFoil.isPlaying)
+                        {
+                            ChangeFoil.Stop();
+                        }
+                        ChangeFoil.Play();
+                    }
                     cont--;
                     if (cont <= 0)
                     {
                         cont = 0;
                     }
+                    presionado = true;
                 }
+            }
+            if (presionado)
+            {
+                if (Input.GetAxis("Horizontal") < 0.2f && Input.GetAxis("Horizontal") > -0.2f)
+                {
+                    presionado = false;
+                }
+            }
 
             switch (cont)
             {

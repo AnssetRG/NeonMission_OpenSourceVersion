@@ -7,6 +7,8 @@ public class Presion3 : MonoBehaviour {
     public GameObject obj1;
     public GameObject obj2;
     public GameObject obj3;
+    public AudioSource activeSound;
+    public bool isPlaying;
     // Use this for initialization
 
     private SpriteRenderer myS;
@@ -15,13 +17,15 @@ public class Presion3 : MonoBehaviour {
     Sprite temp;
     void Start()
     {
+        isPlaying = false;
         myS = GetComponent<SpriteRenderer>();
         temp = myS.sprite;
     }
 
+
     void OnCollisionStay2D(Collision2D other)
     {
-        if (other.transform.tag == "Player" || other.transform.tag == "Movible"/* && other.transform.GetComponent<PlayerController>().grounded*/)
+        if (other.transform.tag == "Player" || other.transform.tag == "Pushable"/* && other.transform.GetComponent<PlayerController>().grounded*/)
         {
             //obj.transform.GetComponent<Rotatorio>().speed = -1;
             if (obj1.transform.GetComponent<PlataformaMov>() != null)
@@ -52,6 +56,11 @@ public class Presion3 : MonoBehaviour {
             if (obj3.transform.GetComponent<GeneradorB>() != null)
                 obj3.transform.GetComponent<GeneradorB>().Act = true;
             myS.sprite = nwS;
+            if (isPlaying == false)
+            {
+                activeSound.Play();
+            }
+            isPlaying = true;
         }
     }
 
@@ -87,6 +96,7 @@ public class Presion3 : MonoBehaviour {
                 obj3.transform.GetComponent<GeneradorB>().Act = false;
 
             myS.sprite = temp;
+            isPlaying = false;
         }
 
     }

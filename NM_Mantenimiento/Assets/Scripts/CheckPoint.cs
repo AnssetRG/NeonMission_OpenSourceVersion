@@ -7,10 +7,13 @@ public class CheckPoint : MonoBehaviour {
     public LevelManager levelManager;
 
     private SpriteRenderer myS;
+    public AudioSource checkIncomplete;
+    public AudioSource checkComplete;
     public Sprite nwS1;
     public Sprite nwS2;
     public Sprite nwS3;
     Sprite temp;
+    //public bool playSound;
 
     //string val;
 
@@ -21,6 +24,11 @@ public class CheckPoint : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        //playSound = false;
+        //if (necesario == 2)
+        //{
+        //    playSound = true;
+        //}
         levelManager = FindObjectOfType<LevelManager>();
         myS = GetComponent<SpriteRenderer>();
         temp = myS.sprite;
@@ -41,6 +49,8 @@ public class CheckPoint : MonoBehaviour {
         }
         if (necesario == completado)
         {
+            checkIncomplete.Stop();
+            checkComplete.Play();
             levelManager.currentCheckPoint = gameObject;
             myS.sprite = nwS3;
             finish = true;
@@ -53,15 +63,13 @@ public class CheckPoint : MonoBehaviour {
         {
             necesario = necesario + 1;
             myS.sprite = nwS1;
-            //myC.enabled = false;
-            //Debug.Log("Activated Checpoint " + transform.position);
+            checkIncomplete.Play();
         }
         if (other.name == "Player2" && finish == false)
         {
             necesario = necesario + 1;
             myS.sprite = nwS2;
-            //myC.enabled = false;
-            //Debug.Log("Activated Checpoint " + transform.position);
+            checkIncomplete.Play();
         }
     }
 

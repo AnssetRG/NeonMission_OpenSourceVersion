@@ -10,12 +10,14 @@ public class Presion_G : MonoBehaviour {
     private SpriteRenderer myS;
     public Sprite nwS;
     public AudioSource activeSound;
+    private bool isPlayingMusic;
 
     float valor;
 
     Sprite temp;
     void Start()
     {
+        isPlayingMusic = false;
         myS = GetComponent<SpriteRenderer>();
         temp = myS.sprite;
         valor = obj.transform.GetComponent<Rotatorio>().speed;
@@ -27,7 +29,12 @@ public class Presion_G : MonoBehaviour {
         {
             obj.transform.GetComponent<Rotatorio>().speed = -valor;
             myS.sprite = nwS;
-            activeSound.Play();
+            if (!isPlayingMusic)
+            {
+                activeSound.Play();
+                isPlayingMusic = true;
+            }
+                
         }
     }
 
@@ -37,6 +44,7 @@ public class Presion_G : MonoBehaviour {
         {
             obj.transform.GetComponent<Rotatorio>().speed = valor;
             myS.sprite = temp;
+            isPlayingMusic = false;
         }
     }
 }

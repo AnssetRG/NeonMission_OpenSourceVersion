@@ -17,7 +17,7 @@ public class Destruccion : MonoBehaviour {
         }
         if (random)
         {
-            speed = (speed) + 1.5f*Random.value;
+            speed = (speed) + 2f*Random.value; //1.5
         }
     }
 

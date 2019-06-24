@@ -43,7 +43,7 @@ public class CreacionM : MonoBehaviour {
         {
             if (random)
             {
-                finish = temp2 + 300*Random.value;
+                finish = temp2 + 100*Random.value;
             }
             c = 0;
             Act = false;

@@ -8,8 +8,11 @@ public class LevelManager : MonoBehaviour {
     public GameObject currentCheckPoint;
 
 
-    public GameObject deathParticle;
-    public GameObject respawnParticle;
+    public GameObject deathParticleP1;
+    public GameObject deathParticleP2;
+    public GameObject respawnParticleP1;
+    public GameObject respawnParticleP2;
+
 
     private CameraController cameras;
 
@@ -47,11 +50,15 @@ public class LevelManager : MonoBehaviour {
 
     public IEnumerator RespawnPlayerCo(PlayerController player)
     {
-        Instantiate(deathParticle, player.transform.position, player.transform.rotation);
+        if(player.name == "Player")
+            Instantiate(deathParticleP1, player.transform.position, player.transform.rotation);
+        else
+            Instantiate(deathParticleP2, player.transform.position, player.transform.rotation);
         player.enabled = false;
         player.GetComponent<Renderer>().enabled = false;
         player.GetComponent<CircleCollider2D>().enabled = false;
         cameras.IsFollowing = false;GetComponent<Rigidbody2D>();
+        cameras.SetShakeValues(respawnDelay, 0.10f);
         ScoreManager.AddPoints(-PointPenaltyOnDeath);
         //Debug.Log("Player Respawn");
         yield return new WaitForSeconds(respawnDelay);
@@ -65,8 +72,12 @@ public class LevelManager : MonoBehaviour {
         player.fullHealth();
         //player.isDead = false;
         cameras.IsFollowing = true;
-        Instantiate(respawnParticle, currentCheckPoint.transform.position, currentCheckPoint.transform.rotation);
-        
+        if (player.name == "Player")
+            Instantiate(respawnParticleP1, currentCheckPoint.transform.position, currentCheckPoint.transform.rotation);
+        else
+            Instantiate(respawnParticleP2, currentCheckPoint.transform.position, currentCheckPoint.transform.rotation);
+
+
     }
 
     

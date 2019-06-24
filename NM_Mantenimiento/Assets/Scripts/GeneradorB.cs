@@ -15,6 +15,7 @@ public class GeneradorB : MonoBehaviour {
 
     private Animator anim;
     public AudioSource activeSound;
+    private bool isPlaying;
 
     public bool Contador;
     public int intervalo;
@@ -25,12 +26,13 @@ public class GeneradorB : MonoBehaviour {
         created = false;
         c = 0;
         Act2 = false;
+        isPlaying = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
         anim.SetBool("Act", Act);
         anim.SetBool("Act2", Act2);
 
@@ -62,6 +64,17 @@ public class GeneradorB : MonoBehaviour {
             funca.GetComponent<Zgrav>().vert = speed;
             //temp = creacion;
             //temp.transform.position = new Vector2(-32.5f, -3.5f);
+            isPlaying = funca.GetComponent<Zgrav>().isPlayingFoil;
+            if (isPlaying)
+            {
+                activeSound.Play();
+            }
+                
+            else if (!isPlaying)
+            {
+                activeSound.Stop();
+            }
+            Debug.Log(funca.GetComponent<Zgrav>().isPlayingFoil);
         }
     }
 
@@ -71,7 +84,6 @@ public class GeneradorB : MonoBehaviour {
         if (other.transform.tag == "Player" || other.transform.tag == "Pushable")
         {
             limit = true;
-            
         }
     }
 

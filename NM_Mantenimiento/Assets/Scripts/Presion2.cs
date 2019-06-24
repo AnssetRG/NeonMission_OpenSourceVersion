@@ -12,6 +12,7 @@ public class Presion2 : MonoBehaviour {
     public Sprite nwS;
     public AudioSource activeSound;
 
+    private bool isPlayingMusic;
     public bool temp2;
     Sprite temp;
     void Start()
@@ -22,7 +23,7 @@ public class Presion2 : MonoBehaviour {
 
     void OnCollisionStay2D(Collision2D other)
     {
-        if (other.transform.tag == "Player" || other.transform.tag == "Movible"/* && other.transform.GetComponent<PlayerController>().grounded*/)
+        if (other.transform.tag == "Player" || other.transform.tag == "Pushable"/* && other.transform.GetComponent<PlayerController>().grounded*/)
         {
             //obj.transform.GetComponent<Rotatorio>().speed = -1;
             if (obj1.transform.GetComponent<PlataformaMov>() != null)
@@ -43,7 +44,11 @@ public class Presion2 : MonoBehaviour {
             if (obj2.transform.GetComponent<GeneradorB>() != null)
                 obj2.transform.GetComponent<GeneradorB>().Act = true;
             myS.sprite = nwS;
-            activeSound.Play();
+            if (!isPlayingMusic)
+            {
+                activeSound.Play();
+                isPlayingMusic = true;
+            }
         }
     }
 
@@ -71,6 +76,7 @@ public class Presion2 : MonoBehaviour {
 
 
             myS.sprite = temp;
+            isPlayingMusic = false;
         }
 
     }

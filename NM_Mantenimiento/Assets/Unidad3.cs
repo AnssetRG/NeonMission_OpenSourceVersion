@@ -5,6 +5,8 @@ using UnityEngine;
 public class Unidad3 : MonoBehaviour {
     private BoxCollider2D myBC;
     Rigidbody2D rig;
+
+    public bool solo;
     // Use this for initialization
     void Start()
     {

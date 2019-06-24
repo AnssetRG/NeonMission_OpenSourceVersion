@@ -21,14 +21,14 @@ public class Unidad : MonoBehaviour {
     
     void OnCollisionEnter2D(Collision2D other)
     {
-        if ((other.transform.tag == "Player" && other.transform.GetComponent<PlayerController>().plataformed) || other.transform.name == "UnMov" || other.transform.name == "UnMov(Clone)")
+        if ((other.transform.tag == "Player" && other.transform.GetComponent<PlayerController>().plataformed) || other.transform.name == "UnMov" || other.transform.name == "UnMov(Clone)" || (other.transform.tag == "Pushable" && other.gameObject.GetComponent<Unidad3>().solo))
         {
             other.transform.parent = myBC.transform;
         }
     }
     void OnCollisionExit2D(Collision2D other)
     {
-        if (other.transform.tag == "Player" || other.transform.name == "UnMov" || other.transform.name == "UnMov(Clone)")
+        if (other.transform.tag == "Player" || other.transform.name == "UnMov" || other.transform.name == "UnMov(Clone)" || (other.transform.tag == "Pushable" && other.gameObject.GetComponent<Unidad3>().solo))
             other.transform.parent = null;
     }
 }
